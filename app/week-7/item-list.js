@@ -73,12 +73,12 @@ export default function ItemList() {
         >
           Sort by Category
         </button>
-      <button
+      {/* <button
           onClick={() => setSortBy('name')}
           className={`py-1 px-2 rounded ${!isGrouped ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
         >
           Group by Category
-        </button>
+        </button> */}
         </div>
         {isGrouped ? renderGroupedList() : renderFlatList()}
       </div>
