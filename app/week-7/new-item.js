@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 
@@ -21,11 +22,14 @@ const increment = () => {
    const handleSubmit = (event) => {
     event.preventDefault();
 
-    const item = {name, quantity, category};
-    console.log(item);
-    alert(`Added ${quantity} ${name}(s) to category: ${category}`);
-     // onAddItem(item);
+    const item = {
+      id: Math.random().toString(36).slice(2, 9),
+      name, quantity, category: category.toLowerCase(),
+    };
+    console.log("Submitting item:", item );
 
+    onAddItem(item);
+    
     setName("");
     setQuantity(1);
     setCategory("produce");
@@ -69,8 +73,8 @@ const increment = () => {
             <option value="Bakery">Bakery</option>
             <option value="Meat">Meat</option>
             <option value="Frozen">Frozen</option>
-            <option value="Canned">Canned</option>
-            <option value="Dry">Dry</option>
+            <option value="Canned">Canned Goods</option>
+            <option value="Dry">Dry Goods</option>
             <option value="Beverages">Beverages</option>
             <option value="Snacks">Snacks</option>
             <option value="Household">Household</option>
