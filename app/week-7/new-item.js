@@ -73,8 +73,8 @@ const increment = () => {
             <option value="Bakery">Bakery</option>
             <option value="Meat">Meat</option>
             <option value="Frozen">Frozen</option>
-            <option value="Canned">Canned Goods</option>
-            <option value="Dry">Dry Goods</option>
+            <option value="Canned Goods">Canned Goods</option>
+            <option value="Dry Goods">Dry Goods</option>
             <option value="Beverages">Beverages</option>
             <option value="Snacks">Snacks</option>
             <option value="Household">Household</option>
