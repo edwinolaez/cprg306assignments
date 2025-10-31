@@ -70,6 +70,12 @@ export default function Page() {
           >
             Week 7
           </Link>
+          <Link
+            href="/week-8"
+            className="flex-1 min-w-[150px] text-center py-3 px-4 bg-pink-200 text-gray-700 rounded-md hover:bg-pink-300 transition-colors duration-200"
+          >
+            Week 8
+          </Link>
           {/* Add more weeks here as needed */}
         </section>
       </div>
