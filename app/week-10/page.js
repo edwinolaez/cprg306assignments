@@ -2,11 +2,12 @@
 
 import { useUserAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 
 export default function Page() {
   const { user, gitHubSignIn,firebaseSignOut } = useUserAuth();
+  const router = useRouter();
   
   const handleSignIn = async() => {
     try {
@@ -20,7 +21,7 @@ export default function Page() {
   const handleSignOut = async () => {
     try {
       await firebaseSignOut();
-      router.push("/week-9");
+      router.push("/week-10");
     } catch (error) {
       console.error("Error signing out: You need help?", error);
     }
@@ -58,7 +59,7 @@ export default function Page() {
       </div>
 
       <div className="space-y-3">
-        <Link href="/week-9/shopping-list" className="block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200"> Go to Shopping List, Now you can Shop
+        <Link href="/week-10/shopping-list" className="block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200"> Go to Shopping List, Now you can Shop
         </Link>
         <button onClick={handleSignOut}
         className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-200">

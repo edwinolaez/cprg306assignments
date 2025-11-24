@@ -6,31 +6,69 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ItemList from "./item-list.js";
 import NewItem from "./new-item.js";
-import itemsData from './items.json';
 import MealIdeas from "./meal-ideas.js";
+import { getItems, addItem } from "../_services/shopping-list-service.js";
 
 export default function Page() {
   const { user, firebaseSignOut } = useUserAuth();
   const router = useRouter();
 
-  const [items, setItems] = useState(itemsData);
+  const [items, setItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState("");
   
   useEffect (() => {
     if (user == null) {
-      router.push("/week-9");
+      router.push("/week-10");
+    } else {
+      loadItems();
     }
   }, [user, router]);
 
-  const handleAddItem = (newItem) => {
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems, NewItem];
-      console.log("Updated items:", updatedItems);
-      return updatedItems;
-    });
+  /**
+   * Loads items from firestore for the current user 
+   * 
+   */
+
+  async function loadItems() {
+    if (user && user.uid) {
+      try {
+        const itemsList = await getItems(user.uid);
+        setItems(itemsList);
+      } catch (error) {
+        console.error("Error loading items:", error);
+      }
+    }
+  }
+
+  /**
+   * Handles adding a new item to the shopping list 
+   * @param {Object} newItem - The new item to add 
+   */
+
+  const handleAddItem = async (newItem) => {
+    try {
+      const { id, ...itemWithoutId } = newItem;
+      const newItemId = await addItem(user.uid, itemWithoutId);
+
+      const itemWithFirestoreId = {
+        id: newItemId, ...itemWithoutId
+      };
+
+    setItems((prevItems) => [...prevItems, itemWithFirestoreId]);
+      console.log("Item added successfully:", itemWithFirestoreId);
+    } catch (error) {
+      console.error("Error adding items: ", error);
+      alert("Failed to add item. Please try again.");
+    }
   };
+  
+  /**
+   * Hnadles selecting an item to view meal ideas 
+   * @param {Object} item - The selected item 
+   */
 
   const handleItemSelect = (item) => {
+    // Clean up the item name 
     let cleanedName = item.name.split (',')[0];
     cleanedName = cleanedName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,'');
     cleanedName = cleanedName.trim();
@@ -80,7 +118,7 @@ export default function Page() {
       </div>
       <div className="flex gap-3">
         <Link 
-          href="/week-9"
+          href="/week-10"
           className="px-5 py-2.5 bg-purple-100 text-purple-800  font-medium  rounded-lg hover:bg-purple-200 transition ">
            Home </Link> 
         <button onClick={handleSignOut} className="px-5 py-2.5 font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition "> Sign Out</button>
