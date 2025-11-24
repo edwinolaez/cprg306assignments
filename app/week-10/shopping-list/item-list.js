@@ -10,18 +10,18 @@ export default function ItemList({ items, onItemSelect }) {
     return (
       <div className='max-w-md'>
         <div className='mb-4 flex space-x-2'>
-          <button 
+          <button
             onClick={() => setSortBy('name')}
             className={`py-1 px-2 rounded ${sortBy === 'name' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            >
-              Sort by Name
-            </button>
-            <button 
-              onClick={() => setSortBy('category')}
-              className={`py-1 px-2 rounded ${sortBy === 'category' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-              >
-                Sort by Category
-              </button>
+          >
+            Sort by Name
+          </button>
+          <button
+            onClick={() => setSortBy('category')}
+            className={`py-1 px-2 rounded ${sortBy === 'category' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          >
+            Sort by Category
+          </button>
         </div>
         <p className='text-gray-500 text-center py-8'>No items yet. Add your first item!</p>
       </div>
@@ -30,11 +30,13 @@ export default function ItemList({ items, onItemSelect }) {
 
   const sortedItems = [...items].sort((a, b) => {
     const prop = sortBy === 'name' ? 'name' : 'category';
-    return a[prop].localeCompare(b[prop]);
+    const aValue = a[prop] || '';
+    const bValue = b[prop] || '';
+    return aValue.localeCompare(bValue);
   });
 
   const renderFlatList = () => (
-    <ul className= "space-y-1">
+    <ul className="space-y-1">
       {sortedItems.map((item, index) => (
         <Item
           key={item.id || `item-${index}`}
@@ -45,10 +47,10 @@ export default function ItemList({ items, onItemSelect }) {
         />
       ))}
     </ul>
-  );  
+  );
 
-  const renderGroupedList = () => { 
-    const grouped =items.reduce((acc, item) => {
+  const renderGroupedList = () => {
+    const grouped = items.reduce((acc, item) => {
       const category = item.category || "uncategorized";
       if (!acc[category]) acc[category] = [];
       acc[category].push(item);
@@ -98,15 +100,14 @@ export default function ItemList({ items, onItemSelect }) {
         >
           Sort by Category
         </button>
-      {/* <button
+        {/* <button
           onClick={() => setSortBy('name')}
           className={`py-1 px-2 rounded ${!isGrouped ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
         >
           Group by Category
         </button> */}
-        </div>
-        {isGrouped ? renderGroupedList() : renderFlatList()}
       </div>
+      {isGrouped ? renderGroupedList() : renderFlatList()}
+    </div>
   );
 }
-      
